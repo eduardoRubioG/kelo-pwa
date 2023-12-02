@@ -1,7 +1,9 @@
-<nav mat-tab-nav-bar [tabPanel]="tabPanel" class="!fixed bottom-0 w-full">
+<nav mat-tab-nav-bar [tabPanel]="tabPanel" class=" w-full">
     @for (route of routes; track route.path) {
-    <a mat-tab-link (click)="activeLink=route.path" [active]="activeLink==route.path" routerLink="{{route.path}}">{{
+
+    <a mat-tab-link routerLink="{{route.path}}" [active]="activeLink==route.path" (click)="onTabClick(route.path)">{{
         route.label }}</a>
     }
+
 </nav>
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

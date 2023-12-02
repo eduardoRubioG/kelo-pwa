@@ -1,3 +1,7 @@
-<kelo-app-header />
-<router-outlet />
-<kelo-nav-tab />
+<div class="flex flex-col h-full">
+    <kelo-app-header />
+    <div class="flex-grow overflow-auto">
+        <router-outlet />
+    </div>
+    <kelo-nav-tab />
+</div>
