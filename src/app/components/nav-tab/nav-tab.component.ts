@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { NavRoutes } from '../../types/kelo.interface';
 
 @Component({
-  selector: 'app-nav-tab',
+  selector: 'kelo-nav-tab',
   standalone: true,
   imports: [CommonModule, MatTabsModule, RouterLink],
   templateUrl: './nav-tab.component.html',
