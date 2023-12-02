@@ -6,9 +6,15 @@ export const routes: Routes = [
   {
     path: 'plate-calculator',
     component: PlateCalculatorViewComponent,
+    data: {
+      title: 'Plate Calculator',
+    },
   },
   {
     path: 'rpe-calculator',
     component: RpeCalculatorViewComponent,
+    data: {
+      title: 'RPE Calculator',
+    },
   },
 ];
