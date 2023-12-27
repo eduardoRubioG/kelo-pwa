@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject, filter, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, filter, takeUntil, tap } from 'rxjs';
+import { UnitsService } from '../../services/units/units.service';
+import { UNITS } from '../../consts/kelo.const';
 
 @Component({
   selector: 'kelo-bold-input',
@@ -20,7 +22,11 @@ export class BoldInputComponent {
   @Input() label!: string;
   @Output() valueChange = new EventEmitter<number>();
 
+  constructor(private readonly units: UnitsService) {}
+
   public value: FormControl<number | null> = new FormControl<number>(Number(0));
+  public inputUnit$: Observable<UNITS> = this.units.getInputUnitPreference$;
+  public UNITS = UNITS;
   private destroy$: Subject<void> = new Subject<void>();
 
   ngOnInit(): void {

@@ -1,0 +1,20 @@
+<div class="flex flex-col items-center mr-2">
+    <div [style.backgroundColor]="plateKey | plateColorCode"
+        class="border-2 border-black border-opacity-10 h-20 w-20 rounded-full flex items-center justify-center">
+        <span class="text-white font-semibold text-base">
+            {{ plateKey | plateKeyDisplay: (unitPreference | async) }}
+            @if((unitPreference | async) === UNITS.LBS) {
+            lbs
+            } @else if ((unitPreference | async) === UNITS.KGS) {
+            kgs
+            }
+        </span>
+    </div>
+
+
+    <span
+        class="inline-flex mt-2 items-center justify-center bg-slate-900 text-white font-semibold rounded-full h-7 w-7">{{
+        plateCount }}</span>
+
+
+</div>
