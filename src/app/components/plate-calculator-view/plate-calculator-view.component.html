@@ -1,3 +1,6 @@
 <kelo-view-layout>
-    <kelo-bold-input label="Weight" />
+    <kelo-plates-display [plates]="(calculatedWeights$ | async) || {}" [leftOver]="(leftOver$ | async) || 0" />
+    <div class="mt-auto">
+        <kelo-bold-input label="Weight" (valueChange)="onWeightInput($event)" />
+    </div>
 </kelo-view-layout>
