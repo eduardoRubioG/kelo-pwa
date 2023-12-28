@@ -55,14 +55,6 @@ export class UnitsService {
     return this.state$.pipe(map((state) => state.inputUnit === UNITS.LBS));
   }
 
-  get getInputUnitPreference(): UNITS {
-    return this.state$.value.inputUnit;
-  }
-
-  get getOutputUnitPreference(): UNITS {
-    return this.state$.value.outputUnit;
-  }
-
   get getInputUnitPreference$(): Observable<UNITS> {
     return this.state$.pipe(
       map((state) => state.inputUnit),
@@ -75,6 +67,20 @@ export class UnitsService {
       map((state) => state.outputUnit),
       distinctUntilChanged()
     );
+  }
+
+  getOutputUnitLabel$(): Observable<string> {
+    return this.state$.pipe(
+      map((state) => (state.outputUnit === UNITS.KGS ? 'Kgs' : 'Lbs'))
+    );
+  }
+
+  getInputUnitPreference(): UNITS {
+    return this.state$.value.inputUnit;
+  }
+
+  getOutputUnitPreference(): UNITS {
+    return this.state$.value.outputUnit;
   }
 
   toggleUnitOutputPreference(): void {
@@ -96,37 +102,83 @@ export class UnitsService {
     }
   }
 
-  calculatePlates(inputWeight: number, barWeight: number) {
-    const outputUnit = this.getOutputUnitPreference;
-    const inputUnit = this.getInputUnitPreference;
+  calculatePlateCombination(
+    inputWeight: number,
+    barWeight: number,
+    barUnit: UNITS,
+    plateAvailability: Plates
+  ): { plates: Plates; remainder: number } {
+    const outputUnit = this.getOutputUnitPreference();
+    const inputUnit = this.getInputUnitPreference();
 
-    let weight = inputWeight;
-    if (inputUnit === UNITS.KGS && outputUnit === UNITS.LBS) {
-      weight *= 2.2;
-    } else if (inputUnit === UNITS.LBS && outputUnit === UNITS.KGS) {
-      weight /= 2.2;
-    }
-
-    let platesNeeded: Plates = {};
-    let remainingWeight = (weight - this.mapBarWeight(outputUnit)) / 2;
-
+    // Normalize weights to output unit
     const platesMap =
       outputUnit === UNITS.LBS ? PLATE_WEIGHTS_LBS : PLATE_WEIGHTS_KGS;
 
-    Object.entries(platesMap).forEach(([color, weight]) => {
-      const count = Math.floor(remainingWeight / weight);
-      if (count > 0) {
-        platesNeeded[color] = count;
-        remainingWeight -= count * weight;
+    if (inputUnit !== outputUnit) {
+      inputWeight =
+        outputUnit === UNITS.KGS
+          ? this.poundsToKilograms(inputWeight)
+          : this.kilogramsToPounds(inputWeight);
+    }
+
+    if (barUnit !== outputUnit) {
+      barWeight =
+        outputUnit === UNITS.KGS
+          ? this.poundsToKilograms(barWeight)
+          : this.kilogramsToPounds(barWeight);
+    }
+
+    return this._calculatePlateCombination(
+      Math.round(inputWeight),
+      platesMap,
+      Math.round(barWeight),
+      plateAvailability
+    );
+  }
+
+  private _calculatePlateCombination(
+    inputWeight: number, //rounded
+    plateWeights: Plates,
+    barWeight: number, // rounded
+    plateAvailability?: Plates
+  ): { plates: Plates; remainder: number } {
+    let weightPerSide = (inputWeight - barWeight) / 2;
+    let plateCombination: Plates = {};
+    let weightRemainder = weightPerSide;
+
+    for (const plate in plateWeights) {
+      const plateWeight = plateWeights[plate];
+      let availableCount = plateAvailability
+        ? plateAvailability[plate]
+        : Infinity;
+      let count = 0;
+
+      while (weightRemainder >= plateWeight && count < availableCount) {
+        weightRemainder -= plateWeight;
+        count++;
       }
-    });
+
+      if (count > 0) {
+        plateCombination[plate] = count;
+      }
+    }
 
     return {
-      platesNeeded,
-      remainingWeight: Math.round(remainingWeight * 2),
+      plates: plateCombination,
+      remainder: Math.round(weightRemainder),
     };
   }
 
   setUnitInputPreference() {}
   setUnitOutputPreference() {}
+
+  // Helper functions
+  poundsToKilograms(pounds: number): number {
+    return pounds / 2.20462;
+  }
+
+  kilogramsToPounds(kilograms: number): number {
+    return kilograms * 2.20462;
+  }
 }

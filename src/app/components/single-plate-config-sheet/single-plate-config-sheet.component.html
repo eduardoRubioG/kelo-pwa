@@ -1,0 +1,29 @@
+<!-- Key: {{ data.plateKey }}
+Count: {{ data.plateCount }} -->
+<div class="flex flex-col justify-center items-center p-6">
+    <h3 class="text-2xl font-semibold text-neutral-800">{{ data.plateKey | plateKeyDisplay: (unitPreference$ | async)}}
+        {{ unitLabel$ | async }} Plate Availability</h3>
+
+    <!-- TODO: Turn this into the notification component -->
+    <!-- <p>Set how many plates are available to you for personalized plate loading calculations.</p> -->
+
+    <form class="flex flex-col items-center">
+        <label for="singlePlateLimitInputField" class="text-center font-semibold">
+            Availability is currently set to {{ currentAvailability === MAX_VALUE ? 'no limit' : currentAvailability
+            }}
+        </label>
+        <input id="singlePlateLimitInputField"
+            class="py-5 w-full rounded border-2 border-gray-200 flex justify-center text-center text-2xl font-black my-6"
+            [formControl]="value" type="number" />
+    </form>
+
+    <button class="text-blue-600 font-bold text-lg" (click)="onSetToNoLimit()">Set plate availability to 'no
+        limit'</button>
+
+    <div class="flex w-full mt-6">
+        <button (click)="close()"
+            class="mr-2 w-full rounded border-2 border-blue-600 text-blue-600 bg-transparent py-3 px-7 text-base font-semibold">Cancel</button>
+        <button class="rounded w-full bg-blue-600 text-white py-3 px-7 text-base font-semibold disabled:opacity-50"
+            (click)="onSave()" [disabled]="!value.dirty">Save</button>
+    </div>
+</div>
