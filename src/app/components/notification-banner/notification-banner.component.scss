@@ -1,0 +1,9 @@
+// sad :(
+// For some reason the icons clip out because it's set to overflow hidden by default ??
+:host {
+  ::ng-deep {
+    .mat-ligature-font {
+      overflow: unset !important;
+    }
+  }
+}

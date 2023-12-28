@@ -15,10 +15,15 @@
     </div>
 
     @if(leftOver > 0) {
-    Has leftover value of {{leftOver}}
+    <kelo-notification-banner class="my-3" type="error"
+        text="Loaded {{ displayedTotal | async }} lbs, the closest to your {{ inputWeight | async }} {{ (unitLabel | async) | lowercase}} request with standard plates (about {{ leftOver}} {{ (unitLabel | async) | lowercase}} leftover)"
+        icon="error" />
     }
 
     @if(hasValidPlates) {
+    <div class="w-full p-4" role="separator">
+        <mat-divider class="w-full" />
+    </div>
     <button class="text-blue-700 font-bold" (click)="onUnitToggleClick()">
         @if((unitPreference | async) === UNITS.KGS) {
         Use Lbs plates
@@ -29,6 +34,4 @@
         }
     </button>
     }
-
-
 </div>

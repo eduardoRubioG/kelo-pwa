@@ -3,14 +3,21 @@ import { CommonModule, KeyValue } from '@angular/common';
 import { Plates } from '../../types/kelo.interface';
 import { PlateComponent } from '../plate/plate.component';
 import { UnitsService } from '../../services/units/units.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { UNITS } from '../../consts/kelo.const';
 import { PlateCalculatorService } from '../../services/plate-calculator/plate-calculator.service';
+import { NotificationBannerComponent } from '../notification-banner/notification-banner.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'kelo-plates-display',
   standalone: true,
-  imports: [CommonModule, PlateComponent],
+  imports: [
+    CommonModule,
+    PlateComponent,
+    NotificationBannerComponent,
+    MatDividerModule,
+  ],
   templateUrl: './plates-display.component.html',
   styleUrl: './plates-display.component.scss',
 })
@@ -19,7 +26,11 @@ export class PlatesDisplayComponent {
   @Input() leftOver: number = 0;
   hasValidPlates: boolean = false;
   unitPreference: Observable<UNITS> = new Observable();
+  unitLabel: Observable<string> = new Observable();
+  displayedTotal: Observable<number> = new Observable();
+  inputWeight: Observable<number> = new Observable();
   readonly UNITS = UNITS;
+  private destroy$: Subject<void> = new Subject();
 
   constructor(
     private readonly unitsService: UnitsService,
@@ -28,6 +39,13 @@ export class PlatesDisplayComponent {
 
   ngOnInit() {
     this.unitPreference = this.unitsService.getOutputUnitPreference$;
+    this.displayedTotal = this.plateCalcService.getTotalDisplayedWeight$();
+    this.inputWeight = this.plateCalcService.getInputWeight$();
+    this.unitLabel = this.unitsService.getOutputUnitLabel$();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.complete();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

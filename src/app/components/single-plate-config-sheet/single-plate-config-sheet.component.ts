@@ -10,11 +10,17 @@ import { PlateKeyDisplayPipe } from '../../pipes/plate-key-display/plate-key-dis
 import { UNITS } from '../../consts/kelo.const';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PlateCalculatorService } from '../../services/plate-calculator/plate-calculator.service';
+import { NotificationBannerComponent } from '../notification-banner/notification-banner.component';
 
 @Component({
   selector: 'kelo-single-plate-config-sheet',
   standalone: true,
-  imports: [CommonModule, PlateKeyDisplayPipe, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    PlateKeyDisplayPipe,
+    ReactiveFormsModule,
+    NotificationBannerComponent,
+  ],
   templateUrl: './single-plate-config-sheet.component.html',
 })
 export class SinglePlateConfigSheetComponent {
