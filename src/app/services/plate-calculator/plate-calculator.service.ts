@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { PlateCalculatorState } from './plate-calculator.service.interface';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { UnitsService } from '../units/units.service';
-import { STORE_KEYS, UNITS } from '../../consts/kelo.const';
+import {
+  PLATE_WEIGHTS_KGS,
+  PLATE_WEIGHTS_LBS,
+  STORE_KEYS,
+  UNITS,
+} from '../../consts/kelo.const';
 import { Plates } from '../../types/kelo.interface';
 import { StorageService } from '../storage/storage.service';
 
@@ -80,6 +85,14 @@ export class PlateCalculatorService {
     return this.state$.value.inputWeight;
   }
 
+  getInputWeight$(): Observable<number> {
+    return this.state$.pipe(map((state) => state.inputWeight));
+  }
+
+  getTotalDisplayedWeight$(): Observable<number> {
+    return this.state$.pipe(map(() => this.getCurrentTotalPlateLoad()));
+  }
+
   get getSelectedBarWeight(): number {
     return this.state$.value.barWeight;
   }
@@ -100,8 +113,34 @@ export class PlateCalculatorService {
     return this.state$.value.availability;
   }
 
-  getCurrentTotalPlateLoad() {
-    // TODO
+  getCurrentTotalPlateLoad(): number {
+    // calculated total should be in the input unit
+    const inputUnit = this.unitsService.getInputUnitPreference();
+    const outputUnit = this.unitsService.getOutputUnitPreference();
+    let total = 0;
+
+    // add bar
+    const barUnit = this.getSelectedBarUnit;
+    let barWeight = this.getSelectedBarWeight;
+    if (barUnit !== outputUnit) {
+      barWeight =
+        barUnit === UNITS.KGS
+          ? this.unitsService.kilogramsToPounds(barWeight)
+          : this.unitsService.poundsToKilograms(barWeight);
+    }
+    total += barWeight;
+
+    // add plates
+    // normalize plates using output unit since it's what the plates are in
+    const plates: Plates = this.state$.value.platesNeeded;
+    const weightMap =
+      outputUnit === UNITS.KGS ? PLATE_WEIGHTS_KGS : PLATE_WEIGHTS_LBS;
+
+    Object.entries(plates).forEach(([plateKey, plateCount]) => {
+      total += weightMap[plateKey] * plateCount * 2;
+    });
+
+    return Number(total.toFixed(2));
   }
 
   setPlateAvailability(plateKey: string, newLimit: number): void {

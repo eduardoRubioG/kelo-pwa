@@ -1,11 +1,9 @@
-<!-- Key: {{ data.plateKey }}
-Count: {{ data.plateCount }} -->
 <div class="flex flex-col justify-center items-center p-6">
     <h3 class="text-2xl font-semibold text-neutral-800">{{ data.plateKey | plateKeyDisplay: (unitPreference$ | async)}}
         {{ unitLabel$ | async }} Plate Availability</h3>
 
-    <!-- TODO: Turn this into the notification component -->
-    <!-- <p>Set how many plates are available to you for personalized plate loading calculations.</p> -->
+    <kelo-notification-banner class="my-3" type="info"
+        text="Set how many plates are available to you for personalized plate loading calculations." icon="info" />
 
     <form class="flex flex-col items-center">
         <label for="singlePlateLimitInputField" class="text-center font-semibold">
