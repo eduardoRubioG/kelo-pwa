@@ -2,5 +2,8 @@
     <kelo-plates-display [plates]="(calculatedWeights$ | async) || {}" [leftOver]="(leftOver$ | async) || 0" />
     <div class="mt-auto">
         <kelo-bold-input label="Weight" (valueChange)="onWeightInput($event)" />
+
+        <button class="text-blue-600 font-bold text-lg w-full my-4" (click)="resetLimits()">
+            Reset all plate limits</button>
     </div>
 </kelo-view-layout>

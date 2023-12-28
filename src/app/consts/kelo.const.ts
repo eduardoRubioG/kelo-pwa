@@ -8,6 +8,7 @@ export const APP_ROUTES = {
 export const STORE_KEYS = {
   UNIT_INPUT: 'unit-input',
   UNIT_OUTPUT: 'unit-output',
+  PLATE_AVAILABILITY_SS: 'plate-availability-session',
 };
 
 export enum UNITS {

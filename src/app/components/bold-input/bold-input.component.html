@@ -4,6 +4,8 @@
             {{ label }}
             ({{ (inputUnit$ | async) === UNITS.LBS ? 'lbs' : 'kgs' }})
         </label>
-        <input id="inputField" class="bg-transparent font-extrabold text-6xl" [formControl]="value" type="number" />
+        <input id="inputField"
+            class="placeholder:text-white placeholder:text-opacity-75 bg-transparent font-extrabold text-6xl"
+            [formControl]="value" type="number" placeholder="--" />
     </div>
 </form>

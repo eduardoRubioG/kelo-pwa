@@ -30,11 +30,16 @@ export class PlateCalculatorViewComponent {
 
   ngOnInit() {
     this.calculatedWeights$ = this.plateCalculatorService.calculatedPlates$;
-    this.leftOver$ = this.plateCalculatorService.getLeftOver$;
+    this.leftOver$ = this.plateCalculatorService.getRemainder$;
   }
 
   onWeightInput(ev: number): void {
     this.weightInput = ev;
     this.plateCalculatorService.calculatePlates(ev);
+  }
+
+  resetLimits(): void {
+    // TODO: remove this once we have a settings page
+    this.plateCalculatorService.resetAvailability();
   }
 }
