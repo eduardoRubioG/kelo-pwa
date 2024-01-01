@@ -13,18 +13,20 @@ import { UNITS } from '../../consts/kelo.const';
 })
 export class BoldInputComponent {
   @Input() label!: string;
+  @Input() weightInput: number | null = null;
   @Output() valueChange = new EventEmitter<number>();
 
   constructor(private readonly units: UnitsService) {}
 
   public value: FormControl<number | null> = new FormControl<number | null>(
-    null
+    this.weightInput
   );
   public inputUnit$: Observable<UNITS> = this.units.getInputUnitPreference$;
   public UNITS = UNITS;
   private destroy$: Subject<void> = new Subject<void>();
 
   ngOnInit(): void {
+    this.setInputOnInit();
     this.value.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -39,5 +41,11 @@ export class BoldInputComponent {
 
   ngOnDestroy(): void {
     this.destroy$.complete();
+  }
+
+  setInputOnInit(): void {
+    if (!isNaN(this.weightInput as number)) {
+      this.value.setValue(this.weightInput);
+    }
   }
 }

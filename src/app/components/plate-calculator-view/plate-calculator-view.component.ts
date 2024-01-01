@@ -17,12 +17,13 @@ import { PlateCalculatorService } from '../../services/plate-calculator/plate-ca
     PlatesDisplayComponent,
   ],
   templateUrl: './plate-calculator-view.component.html',
-  host: { class: 'block h-full' },
+  host: { class: 'block h-full overflow-x-hidden' },
 })
 export class PlateCalculatorViewComponent {
   weightInput: number = NaN;
   calculatedWeights$: Observable<Plates> = new BehaviorSubject({});
   leftOver$: Observable<number> = new BehaviorSubject(0);
+  currentInput$: Observable<number> = new Observable();
 
   constructor(
     private readonly plateCalculatorService: PlateCalculatorService
@@ -30,6 +31,7 @@ export class PlateCalculatorViewComponent {
 
   ngOnInit() {
     this.calculatedWeights$ = this.plateCalculatorService.calculatedPlates$;
+    this.currentInput$ = this.plateCalculatorService.getInputWeight$();
     this.leftOver$ = this.plateCalculatorService.getRemainder$;
   }
 

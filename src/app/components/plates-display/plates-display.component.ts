@@ -26,7 +26,8 @@ export class PlatesDisplayComponent {
   @Input() leftOver: number = 0;
   hasValidPlates: boolean = false;
   unitPreference: Observable<UNITS> = new Observable();
-  unitLabel: Observable<string> = new Observable();
+  outputUnitLabel: Observable<string> = new Observable();
+  inputUnitLabel: Observable<string> = new Observable();
   displayedTotal: Observable<number> = new Observable();
   inputWeight: Observable<number> = new Observable();
   readonly UNITS = UNITS;
@@ -41,7 +42,8 @@ export class PlatesDisplayComponent {
     this.unitPreference = this.unitsService.getOutputUnitPreference$;
     this.displayedTotal = this.plateCalcService.getTotalDisplayedWeight$();
     this.inputWeight = this.plateCalcService.getInputWeight$();
-    this.unitLabel = this.unitsService.getOutputUnitLabel$();
+    this.outputUnitLabel = this.unitsService.getOutputUnitLabel$();
+    this.inputUnitLabel = this.unitsService.getInputUnitLabel$();
   }
 
   ngOnDestroy(): void {
