@@ -75,6 +75,12 @@ export class UnitsService {
     );
   }
 
+  getInputUnitLabel$(): Observable<string> {
+    return this.state$.pipe(
+      map((state) => (state.inputUnit === UNITS.KGS ? 'Kgs' : 'Lbs'))
+    );
+  }
+
   getInputUnitPreference(): UNITS {
     return this.state$.value.inputUnit;
   }

@@ -10,6 +10,7 @@ import { APP_ROUTES } from '../../consts/kelo.const';
   standalone: true,
   imports: [CommonModule, MatTabsModule, RouterLink],
   templateUrl: './nav-tab.component.html',
+  styleUrl: './nav-tab.component.scss',
 })
 export class NavTabComponent {
   public activeLink: string = '';
