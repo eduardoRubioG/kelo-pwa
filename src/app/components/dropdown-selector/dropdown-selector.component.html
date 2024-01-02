@@ -1,0 +1,45 @@
+<div class="relative">
+  <!-- Select Input -->
+  <button
+    class="bg-slate-900 text-white p-4 rounded-lg text-left font-semibold text-base flex items-center justify-between"
+    [ngClass]="{ 'w-full': fullWidth }"
+    (click)="toggleDropdown()"
+    [attr.aria-expanded]="isOpen"
+  >
+    <div class="flex flex-col">
+      <span class="font-semibold text-sm opacity-50">{{ label }}</span>
+      {{ selectedOption.label || placeholder }}
+    </div>
+
+    <mat-icon
+      class="mr-2 transition-transform duration-300"
+      fontIcon="keyboard_arrow_down"
+      aria-hidden="false"
+      aria-label="Arrow pointing down signifying select is closed"
+      [ngClass]="{ 'rotate-180': isOpen }"
+    />
+  </button>
+
+  <!-- Options Dropdown -->
+  <div
+    class="bg-white p-4 rounded-lg absolute top-[110%] shadow-md w-full"
+    *ngIf="isOpen"
+    role="listbox"
+  >
+    @for(item of items; track $index) {
+    <div
+      class="w-full text-base font-semibold text-opacity-80"
+      role="option"
+      (click)="selectOption(item)"
+      tabindex="0"
+    >
+      {{ item.label }}
+      @if($index !== items.length-1) {
+      <div class="w-full py-2" role="separator">
+        <mat-divider class="w-full" />
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>
