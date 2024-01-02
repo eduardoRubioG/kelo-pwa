@@ -6,6 +6,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Plates } from '../../types/kelo.interface';
 import { PlatesDisplayComponent } from '../plates-display/plates-display.component';
 import { PlateCalculatorService } from '../../services/plate-calculator/plate-calculator.service';
+import { DropdownSelectorComponent } from '../dropdown-selector/dropdown-selector.component';
+import { BarSelectorComponent } from '../bar-selector/bar-selector.component';
 
 @Component({
   selector: 'kelo-plate-calculator-view',
@@ -15,6 +17,7 @@ import { PlateCalculatorService } from '../../services/plate-calculator/plate-ca
     ViewLayoutComponent,
     BoldInputComponent,
     PlatesDisplayComponent,
+    BarSelectorComponent,
   ],
   templateUrl: './plate-calculator-view.component.html',
   host: { class: 'block h-full overflow-x-hidden' },

@@ -8,7 +8,7 @@ import {
   STORE_KEYS,
   UNITS,
 } from '../../consts/kelo.const';
-import { Plates } from '../../types/kelo.interface';
+import { Plates, SelectableItem } from '../../types/kelo.interface';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -30,6 +30,20 @@ export class PlateCalculatorService {
       FIVES: Infinity,
       BISCUIT: Infinity,
     },
+    barOptions: [
+      {
+        label: 'Standard - 45lbs',
+        value: { weight: 45, unit: UNITS.LBS },
+      },
+      {
+        label: 'Standard - 20kgs',
+        value: { weight: 20, unit: UNITS.KGS },
+      },
+      {
+        label: 'Machine - No Weight',
+        value: { weight: 0, unit: UNITS.LBS },
+      },
+    ],
   };
   public state$: BehaviorSubject<PlateCalculatorState> = new BehaviorSubject({
     ...this.defaultState,
@@ -39,6 +53,9 @@ export class PlateCalculatorService {
     private readonly unitsService: UnitsService,
     private readonly storage: StorageService
   ) {
+    // TODO: Do the same init work but for bar options
+    // TODO: Do the same init work but for bar avail config options
+
     const storedAvilability = this.storage.setIfDoesNotExist(
       STORE_KEYS.PLATE_AVAILABILITY_SS,
       this.serializePlateAvailabilityForStorage(this.getPlateAvailability),
@@ -87,6 +104,12 @@ export class PlateCalculatorService {
 
   getInputWeight$(): Observable<number> {
     return this.state$.pipe(map((state) => state.inputWeight));
+  }
+
+  getBarOptions$(): Observable<
+    SelectableItem<{ weight: number; unit: UNITS }>[]
+  > {
+    return this.state$.pipe(map((state) => state.barOptions));
   }
 
   getTotalDisplayedWeight$(): Observable<number> {
@@ -193,5 +216,20 @@ export class PlateCalculatorService {
     });
 
     this.calculatePlates();
+  }
+
+  setBarSelection(barWeight: number, barUnit: UNITS): void {
+    if (!isNaN(barWeight) && !isNaN(barUnit)) {
+      this.updateState({
+        barWeight,
+        barUnit,
+      });
+
+      if (this.getInputWeight()) {
+        this.calculatePlates();
+      }
+    } else {
+      console.error('PlateCalcService: Error Setting Bar Selection');
+    }
   }
 }

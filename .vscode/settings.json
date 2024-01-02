@@ -1,0 +1,9 @@
+{
+  "editor.defaultFormatter": "Angular.ng-template",
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

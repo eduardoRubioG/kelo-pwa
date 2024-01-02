@@ -1,5 +1,5 @@
 import { UNITS } from '../../consts/kelo.const';
-import { Plates } from '../../types/kelo.interface';
+import { Plates, SelectableItem } from '../../types/kelo.interface';
 
 export interface PlateCalculatorState {
   inputWeight: number;
@@ -8,4 +8,5 @@ export interface PlateCalculatorState {
   platesNeeded: Plates;
   availability: Plates;
   barUnit: UNITS;
+  barOptions: SelectableItem<{ weight: number; unit: UNITS }>[];
 }
