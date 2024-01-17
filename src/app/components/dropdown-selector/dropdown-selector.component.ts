@@ -22,12 +22,20 @@ export class DropdownSelectorComponent {
   @Input({ transform: booleanAttribute }) fullWidth: boolean = false;
   @Input() items: SelectableItem<unknown>[] = [];
   @Input() placeholder!: string;
+
+  @Input() value!: SelectableItem<unknown> | null;
   @Output() itemSelected: EventEmitter<unknown> = new EventEmitter<unknown>();
   selectedOption: SelectableItem<unknown> = {
     label: '',
     value: null,
   };
   isOpen: boolean = false;
+
+  ngOnInit() {
+    if (this.value) {
+      this.selectedOption = this.value;
+    }
+  }
 
   toggleDropdown(): void {
     if (this.items.length) {

@@ -8,7 +8,7 @@ import {
   STORE_KEYS,
   UNITS,
 } from '../../consts/kelo.const';
-import { Plates, SelectableItem } from '../../types/kelo.interface';
+import { Bar, Plates, SelectableItem } from '../../types/kelo.interface';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -17,10 +17,8 @@ import { StorageService } from '../storage/storage.service';
 export class PlateCalculatorService {
   private readonly defaultState: PlateCalculatorState = {
     inputWeight: 0,
-    barWeight: 45,
     remainder: 0,
     platesNeeded: {},
-    barUnit: UNITS.LBS,
     availability: {
       RED: Infinity,
       BLUE: Infinity,
@@ -30,6 +28,7 @@ export class PlateCalculatorService {
       FIVES: Infinity,
       BISCUIT: Infinity,
     },
+    currentBar: { weight: 45, unit: UNITS.LBS },
     barOptions: [
       {
         label: 'Standard - 45lbs',
@@ -112,16 +111,20 @@ export class PlateCalculatorService {
     return this.state$.pipe(map((state) => state.barOptions));
   }
 
+  getCurrentBar$(): Observable<Bar> {
+    return this.state$.pipe(map((state) => state.currentBar));
+  }
+
   getTotalDisplayedWeight$(): Observable<number> {
     return this.state$.pipe(map(() => this.getCurrentTotalPlateLoad()));
   }
 
   get getSelectedBarWeight(): number {
-    return this.state$.value.barWeight;
+    return this.state$.value.currentBar.weight;
   }
 
   get getSelectedBarUnit(): UNITS {
-    return this.state$.value.barUnit;
+    return this.state$.value.currentBar.unit;
   }
 
   get getRemainder$(): Observable<number> {
@@ -220,9 +223,12 @@ export class PlateCalculatorService {
 
   setBarSelection(barWeight: number, barUnit: UNITS): void {
     if (!isNaN(barWeight) && !isNaN(barUnit)) {
+      const newBar: Bar = {
+        weight: barWeight,
+        unit: barUnit,
+      };
       this.updateState({
-        barWeight,
-        barUnit,
+        currentBar: newBar,
       });
 
       if (this.getInputWeight()) {

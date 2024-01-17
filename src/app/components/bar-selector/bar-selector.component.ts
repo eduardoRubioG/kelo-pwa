@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownSelectorComponent } from '../dropdown-selector/dropdown-selector.component';
 import { PlateCalculatorService } from '../../services/plate-calculator/plate-calculator.service';
-import { Observable } from 'rxjs';
-import { SelectableItem } from '../../types/kelo.interface';
+import { Observable, map } from 'rxjs';
+import { Bar, SelectableItem } from '../../types/kelo.interface';
 import { UNITS } from '../../consts/kelo.const';
+import { DefaultBarSelectOptions } from '../../consts/plate-calculator.const';
 
 @Component({
   selector: 'kelo-bar-selector',
@@ -16,10 +17,28 @@ import { UNITS } from '../../consts/kelo.const';
 export class BarSelectorComponent {
   barOptions$: Observable<SelectableItem<{ weight: number; unit: UNITS }>[]> =
     new Observable();
+  currentBar$: Observable<SelectableItem<Bar>> = new Observable();
   constructor(private readonly plateCalcService: PlateCalculatorService) {}
 
   ngOnInit(): void {
     this.barOptions$ = this.plateCalcService.getBarOptions$();
+    this.currentBar$ = this.plateCalcService.getCurrentBar$().pipe(
+      map((bar) => {
+        const barSelectableItem = DefaultBarSelectOptions.find(
+          (barOption) =>
+            barOption.value.weight === bar.weight &&
+            barOption.value.unit === bar.unit
+        );
+        if (barSelectableItem) {
+          return barSelectableItem;
+        } else {
+          console.error(
+            'BarSelectorComponent: Default Bar Was Not Found - Serving Static Selection'
+          );
+          return DefaultBarSelectOptions[0];
+        }
+      })
+    );
   }
 
   onBarSelection(selection: any): void {

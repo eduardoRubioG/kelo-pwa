@@ -3,6 +3,7 @@
   class="py-3"
   label="Bar"
   placeholder="Select an option"
+  [value]="currentBar$ | async"
   [items]="(barOptions$ | async) || []"
   (itemSelected)="onBarSelection($event)"
 />
