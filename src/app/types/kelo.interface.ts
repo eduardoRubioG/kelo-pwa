@@ -1,3 +1,5 @@
+import { UNITS } from '../consts/kelo.const';
+
 export interface NavRoutes {
   path: string;
   label: string;
@@ -5,6 +7,11 @@ export interface NavRoutes {
 
 export type Plates = {
   [key: string]: number;
+};
+
+export type Bar = {
+  weight: number;
+  unit: UNITS;
 };
 
 export type SelectableItem<T> = {
