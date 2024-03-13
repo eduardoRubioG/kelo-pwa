@@ -1,0 +1,21 @@
+:host {
+  ::ng-deep {
+    .mat-mdc-slider .mdc-slider__track--inactive {
+      background-color: white;
+    }
+
+    .mat-mdc-slider .mdc-slider__track--active_fill {
+      background-color: white !important;
+    }
+
+    .mat-mdc-slider .mdc-slider__thumb-knob {
+      background-color: white;
+      border-color: white;
+    }
+
+    .mat-mdc-slider .mdc-slider__track--active_fill {
+      background-color: white !important;
+      border-color: white;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { PlateCalculatorViewComponent } from './components/plate-calculator-view/plate-calculator-view.component';
-import { RpeCalculatorViewComponent } from './components/rpe-calculator-view/rpe-calculator-view.component';
+import { PlateCalculatorViewComponent } from './components/views/plate-calculator-view/plate-calculator-view.component';
+import { RpeCalculatorViewComponent } from './components/views/rpe-calculator-view/rpe-calculator-view.component';
+import { PercentCalculatorViewComponent } from './components/views/percent-calculator-view/percent-calculator-view.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'plate-calculator', pathMatch: 'full' },
@@ -9,6 +10,13 @@ export const routes: Routes = [
     component: PlateCalculatorViewComponent,
     data: {
       title: 'Plate Calculator',
+    },
+  },
+  {
+    path: 'percent-calculator',
+    component: PercentCalculatorViewComponent,
+    data: {
+      title: 'Percent Calculator',
     },
   },
   {

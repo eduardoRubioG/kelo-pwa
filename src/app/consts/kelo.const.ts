@@ -3,6 +3,7 @@ import { Plates } from '../types/kelo.interface';
 export const APP_ROUTES = {
   PLATE_CALC: '/plate-calculator',
   RPE_CALC: '/rpe-calculator',
+  PERC_CALC: '/percent-calculator',
 };
 
 export const STORE_KEYS = {
