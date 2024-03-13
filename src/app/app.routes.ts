@@ -4,6 +4,7 @@ import { RpeCalculatorViewComponent } from './components/views/rpe-calculator-vi
 import { PercentCalculatorViewComponent } from './components/views/percent-calculator-view/percent-calculator-view.component';
 
 export const routes: Routes = [
+  { path: '**', redirectTo: 'plate-calculator' },
   { path: '', redirectTo: 'plate-calculator', pathMatch: 'full' },
   {
     path: 'plate-calculator',
