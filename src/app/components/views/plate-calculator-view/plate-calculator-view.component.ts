@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ViewLayoutComponent } from '../view-layout/view-layout.component';
-import { BoldInputComponent } from '../bold-input/bold-input.component';
+import { ViewLayoutComponent } from '../../view-layout/view-layout.component';
+import { BoldInputComponent } from '../../bold-input/bold-input.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Plates } from '../../types/kelo.interface';
-import { PlatesDisplayComponent } from '../plates-display/plates-display.component';
-import { PlateCalculatorService } from '../../services/plate-calculator/plate-calculator.service';
-import { DropdownSelectorComponent } from '../dropdown-selector/dropdown-selector.component';
-import { BarSelectorComponent } from '../bar-selector/bar-selector.component';
+import { Plates } from '../../../types/kelo.interface';
+import { PlatesDisplayComponent } from '../../plates-display/plates-display.component';
+import { PlateCalculatorService } from '../../../services/plate-calculator/plate-calculator.service';
+import { DropdownSelectorComponent } from '../../dropdown-selector/dropdown-selector.component';
+import { BarSelectorComponent } from '../../bar-selector/bar-selector.component';
 
 @Component({
   selector: 'kelo-plate-calculator-view',

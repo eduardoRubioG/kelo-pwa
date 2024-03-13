@@ -22,6 +22,7 @@ export class NavTabComponent {
       path: APP_ROUTES.PLATE_CALC,
       label: 'Plate Calc',
     },
+    { path: APP_ROUTES.PERC_CALC, label: '1RM%' },
     { path: APP_ROUTES.RPE_CALC, label: 'RPE' },
   ];
 

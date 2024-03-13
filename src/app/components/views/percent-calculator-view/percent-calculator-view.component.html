@@ -1,0 +1,56 @@
+<kelo-view-layout>
+  @if(((pinned1RMs | async) || []).length) {
+  <p>Has pinned 1rms</p>
+  } @if (resultingWeight > 0) {
+  <div
+    class="p-4 rounded-2xl bg-slate-900 mb-4 flex justify-between items-center"
+  >
+    <div class="flex flex-col">
+      <span class="text-white text-opacity-75"> Result </span>
+      <span class="text-white font-extrabold text-4xl">{{
+        resultingWeight
+      }}</span>
+    </div>
+
+    <button class="p-2 pt-3" (click)="copyWeightToClipboard($event)" matRipple>
+      <mat-icon class="text-white" fontIcon="content_copy" />
+    </button>
+  </div>
+  }
+
+  <form class="bg-blue-700 text-white p-4 rounded-2xl" #myForm="ngForm">
+    <div class="flex flex-col">
+      <label for="percentInput" class="text-white text-opacity-75">
+        Percent:
+        {{ slider.value }}
+        %
+      </label>
+      <mat-slider [min]="0" [max]="100" [step]="0.1" discrete>
+        <input
+          id="percentInput"
+          name="percentValue"
+          matSliderThumb
+          [(ngModel)]="percentValue"
+          (ngModelChange)="calcWeight()"
+          #slider
+        />
+      </mat-slider>
+    </div>
+
+    <div class="w-full flex flex-col">
+      <label for="oneRMWeightInput" class="text-white text-opacity-75">
+        1RM
+      </label>
+
+      <input
+        id="oneRMWeightInput"
+        class="placeholder:text-white placeholder:text-opacity-75 bg-transparent font-extrabold text-4xl"
+        type="number"
+        placeholder="--"
+        [(ngModel)]="oneRMWeight"
+        name="oneRMWeight"
+        (ngModelChange)="calcWeight()"
+      />
+    </div>
+  </form>
+</kelo-view-layout>
